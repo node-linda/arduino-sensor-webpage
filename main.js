@@ -4,14 +4,17 @@ var linda = new Linda().connect(socket);
 var ts = linda.tuplespace('delta');
 
 linda.io.on('connect', function(){
-  console.log('connect!!');
+  print('socket.io connect!!');
+
   ts.watch({type:"sensor"}, function(err, tuple){
     if(err) return;
-    print(JSON.stringify(tuple.data));
+    print(tuple.data);
   });
+
 });
 
 var print = function(msg){
   console.log(msg);
+  if(typeof msg === 'object') msg = JSON.stringify(msg);
   $("#log").prepend( $("<li>").text(msg).fadeIn(400) );
 };
